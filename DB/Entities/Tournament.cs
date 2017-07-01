@@ -13,7 +13,6 @@ namespace DB.Entities
         [Key, Column(Order = 0)]
         public int Id { get; set; }
 
-        [Key, Column(Order = 1)]
         public int StageId { get; set; }
 
         public int? CountryId { get; set; }

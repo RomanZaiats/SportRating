@@ -14,7 +14,7 @@ namespace DB.Entities
         [Required]
         public int TeamId { get; set; }
 
-        public int? RatingListId { get; set; }
+        public int RatingListId { get; set; }
 
         public double Value { get; set; }
 

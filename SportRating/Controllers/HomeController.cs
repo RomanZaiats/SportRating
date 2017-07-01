@@ -1,4 +1,5 @@
-﻿using DB;
+﻿using DAL;
+using DB.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace SportRating.Controllers
     {
         public ActionResult Index()
         {
+            UnitOfWork uow = new UnitOfWork();
             ViewBag.Title = "Home Page";
-            SportRatingContext db = new SportRatingContext();
-            db.Countries.Add(new DB.Entities.Country { Name = "Ukraine" });
-            db.SaveChanges();
+            uow.CountryRepository.Insert(new Country { Name = "Ukraine" });
+            uow.Save();
             return View();
         }
     }

@@ -13,12 +13,7 @@ namespace DB.Entities
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("Tournament"), Column(Order = 0)]
         public int TournamentId { get; set; }
-
-        [Required]
-        [ForeignKey("Tournament"), Column(Order = 1)]
-        public int TournamentStageId { get; set; }
 
         [Required]
         public int Team1Id { get; set; }

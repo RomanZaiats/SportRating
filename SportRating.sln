@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportRatingAPI", "SportRati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{AA2929FC-C7DF-42D4-97B8-82AA168A628C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{3473BCEE-8651-4225-BCEC-642C31F81284}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AA2929FC-C7DF-42D4-97B8-82AA168A628C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA2929FC-C7DF-42D4-97B8-82AA168A628C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA2929FC-C7DF-42D4-97B8-82AA168A628C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3473BCEE-8651-4225-BCEC-642C31F81284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3473BCEE-8651-4225-BCEC-642C31F81284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3473BCEE-8651-4225-BCEC-642C31F81284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3473BCEE-8651-4225-BCEC-642C31F81284}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
