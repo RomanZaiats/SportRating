@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork: IDisposable
     {
         GenericRepository<City> CityRepository { get; }
         GenericRepository<Country> CountryRepository { get; }
