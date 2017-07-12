@@ -27,6 +27,8 @@ namespace DB
 
         public DbSet<Tournament> Tournaments { get; set; }
 
+        public DbSet<Tour> Tours { get; set; }
+
         public SportRatingContext(): base("name=SportRatingConnection") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

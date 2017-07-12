@@ -17,6 +17,7 @@ namespace DAL
         GenericRepository<Stage> StageRepository { get; }
         GenericRepository<Team> TeamRepository { get; }
         GenericRepository<Tournament> TournamentRepository { get; }
+        GenericRepository<Tour> TourRepository { get; }
 
         void Save();
     }

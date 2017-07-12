@@ -20,7 +20,7 @@ namespace DAL
         private GenericRepository<Stage> _stageRepository;
         private GenericRepository<Team> _teamRepository;
         private GenericRepository<Tournament> _tournamentRepository;
-
+        private GenericRepository<Tour> _tourRepository;
 
         public GenericRepository<City> CityRepository { get => _cityRepository ?? (_cityRepository = new GenericRepository<City>(context)); }
         public GenericRepository<Country> CountryRepository { get => _countryRepository ?? (_countryRepository = new GenericRepository<Country>(context)); }
@@ -30,7 +30,7 @@ namespace DAL
         public GenericRepository<Stage> StageRepository { get => _stageRepository ?? (_stageRepository = new GenericRepository<Stage>(context)); }
         public GenericRepository<Team> TeamRepository { get => _teamRepository ?? (_teamRepository = new GenericRepository<Team>(context)); }
         public GenericRepository<Tournament> TournamentRepository { get => _tournamentRepository ?? (_tournamentRepository = new GenericRepository<Tournament>(context)); }
-
+        public GenericRepository<Tour> TourRepository { get => _tourRepository ?? (_tourRepository = new GenericRepository<Tour>(context)); }
 
 
         public void Save()

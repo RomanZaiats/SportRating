@@ -21,6 +21,8 @@ namespace DB.Entities
         [Required]
         public int Team2Id { get; set; }
 
+        public int? TourId { get; set; }
+
         public int Team1Score { get; set; }
 
         public int Team2Score { get; set; }
@@ -32,5 +34,7 @@ namespace DB.Entities
         public virtual Team Team1 { get; set; }
 
         public virtual Team Team2 { get; set; }
+
+        public virtual Tour Tour { get; set; }
     }
 }

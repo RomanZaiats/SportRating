@@ -1,5 +1,7 @@
-﻿using DAL;
+﻿using CCTService;
+using DAL;
 using DB.Entities;
+using DTOs.CCTService;
 using SportRating.Models;
 using SportRating.Models.City;
 using System;
@@ -14,77 +16,41 @@ namespace SportRating.Controllers
 {
     public class CityController : ApiController
     {
-        private IUnitOfWork db;
+        private ICCTService _cctService;
 
         public CityController()
         {
-            db = new UnitOfWork();
+            _cctService = (ICCTService)WebApiConfig.DependencyResolver.GetService(typeof(ICCTService));
         }
 
         // GET: api/City
         public IHttpActionResult Get()
         {
-            var cities = db.CityRepository.Get()
-                .Select(i => new CityDto { Id = i.Id, Name = i.Name, CountryId = i.CountryId });
-            return Ok(cities);
+            var result = _cctService.GetAllCities();
+
+            return Ok(result.Value);
         }
 
         // GET: api/City/5
         public IHttpActionResult Get(int id)
         {
-            City city = db.CityRepository.GetByID(id);
-            if (city == null)
-            {
-                return NotFound();
-            }
+            var result = _cctService.GetCity(id);
 
-            return Ok(
-                new CityDetailsDto
-                {
-                    Id = city.Id,
-                    CountryId = city.CountryId,
-                    Name = city.Name,
-                    CountryName = city.Country.Name
-                });
+            return Ok(result.Value);
         }
 
         // POST: api/City
-        public IHttpActionResult Post([FromBody]City city)
+        public IHttpActionResult Post([FromBody]CityDto city)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var result = _cctService.AddCity(city);
 
-            db.CityRepository.Insert(city);
-            db.Save();
             return CreatedAtRoute("DefaultApi", new { id = city.Id }, city);
         }
 
         // PUT: api/City/5
-        public IHttpActionResult Put(int id, [FromBody]City city)
+        public IHttpActionResult Put(int id, [FromBody]CityDto city)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.CityRepository.Update(city);
-            try
-            {
-                db.Save();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (db.CityRepository.GetByID(id) == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var result = _cctService.UpdateCity(city);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -92,16 +58,9 @@ namespace SportRating.Controllers
         // DELETE: api/City/5
         public IHttpActionResult Delete(int id)
         {
-            City city = db.CityRepository.GetByID(id);
-            if (city == null)
-            {
-                return NotFound();
-            }
+            var result = _cctService.RemoveCity(id);
 
-            db.CityRepository.Delete(city);
-            db.Save();
-
-            return Ok(city);
+            return Ok(result.Value);
         }
     }
 }
