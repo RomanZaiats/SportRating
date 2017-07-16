@@ -1,9 +1,12 @@
-﻿using CCTService;
+﻿using AutoMapper;
+using CCTService;
 using DAL;
 using DB.Entities;
+using DTOs.Api;
 using DTOs.CCTService;
 using SportRating.Models;
 using SportRating.Models.City;
+using SportRating.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -14,53 +17,45 @@ using System.Web.Http;
 
 namespace SportRating.Controllers
 {
-    public class CityController : ApiController
+    public class CityController : ServiceApiController
     {
         private ICCTService _cctService;
+        private IMapper _mapper;
 
         public CityController()
         {
             _cctService = (ICCTService)WebApiConfig.DependencyResolver.GetService(typeof(ICCTService));
+            _mapper = (IMapper)WebApiConfig.DependencyResolver.GetService(typeof(IMapper));
         }
 
-        // GET: api/City
+        [Route("api/City")]
+        [HttpGet]
         public IHttpActionResult Get()
         {
-            var result = _cctService.GetAllCities();
-
-            return Ok(result.Value);
+            return MapServiceToHttpResponse(_cctService.GetAllCities());
         }
 
-        // GET: api/City/5
         public IHttpActionResult Get(int id)
         {
-            var result = _cctService.GetCity(id);
-
-            return Ok(result.Value);
+            return MapServiceToHttpResponse(_cctService.GetCity(id));
         }
 
-        // POST: api/City
-        public IHttpActionResult Post([FromBody]CityDto city)
+        [Route("api/City")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody]CityApiDto city)
         {
-            var result = _cctService.AddCity(city);
-
-            return CreatedAtRoute("DefaultApi", new { id = city.Id }, city);
+            return MapServiceToHttpResponse(_cctService.AddCity(_mapper.Map<CityApiDto, CityDto>(city)));
         }
 
-        // PUT: api/City/5
-        public IHttpActionResult Put(int id, [FromBody]CityDto city)
+        [HttpPut]
+        public IHttpActionResult Put(int id, [FromBody]CityApiDto city)
         {
-            var result = _cctService.UpdateCity(city);
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return MapServiceToHttpResponse(_cctService.UpdateCity(_mapper.Map<CityApiDto, CityDto>(city)));
         }
 
-        // DELETE: api/City/5
         public IHttpActionResult Delete(int id)
         {
-            var result = _cctService.RemoveCity(id);
-
-            return Ok(result.Value);
+            return MapServiceToHttpResponse(_cctService.RemoveCity(id));
         }
     }
 }

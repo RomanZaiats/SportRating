@@ -12,10 +12,7 @@ namespace SportRating.Controllers
     {
         public ActionResult Index()
         {
-            UnitOfWork uow = new UnitOfWork();
             ViewBag.Title = "Home Page";
-            uow.CountryRepository.Insert(new Country { Name = "Ukraine" });
-            uow.Save();
             return View();
         }
     }

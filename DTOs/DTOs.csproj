@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CCTService\CityDto.cs" />
-    <Compile Include="CCTService\CountryDto.cs" />
-    <Compile Include="CCTService\TeamDto.cs" />
+    <Compile Include="Api\CityApiDto.cs" />
+    <Compile Include="Api\CountryApiDto.cs" />
+    <Compile Include="Api\TeamApiDto.cs" />
+    <Compile Include="Services\CCTService\CityDto.cs" />
+    <Compile Include="Services\CCTService\CountryDto.cs" />
+    <Compile Include="Services\CCTService\TeamDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

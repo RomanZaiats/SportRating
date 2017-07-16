@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CCTService
 {
-    public interface ICCTService: IManualService
+    public interface ICCTService
     {
         ServiceRespone GetAllCities();
 

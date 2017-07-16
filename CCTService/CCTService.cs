@@ -8,36 +8,27 @@ using DTOs.CCTService;
 using ServicesHelper;
 using Microsoft.Practices.Unity;
 using DB.Entities;
+using AutoMapper;
 
 namespace CCTService
 {
     public class CCTService: ICCTService
     {
-        private IUnitOfWork db;
-        public IUnityContainer DependencyResolver { get; private set; }
-        public CCTService()
+        private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
+
+        public CCTService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            DependencyResolver = new UnityContainer();
-            DependencyResolver.RegisterType<IUnitOfWork, UnitOfWork>();
-            db = DependencyResolver.Resolve<IUnitOfWork>();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        //public CCTService(IUnityContainer container)
-        //{
-        //    _container = container;
-        //    if (!_container.IsRegistered(typeof(IUnitOfWork)))
-        //    {
-        //        throw new ArgumentException("Granted container does not have register the required dependencies");
-        //    }
-        //    db = _container.Resolve<IUnitOfWork>();
-        //}
-
-        public void SetDependencyResolver(IUnityContainer container)
+        public static void RegisterDependencies(IUnityContainer container)
         {
-            DependencyResolver.Dispose();
-            DependencyResolver = container;
-            DependencyResolver.RegisterType<IUnitOfWork, UnitOfWork>();
-            db = DependencyResolver.Resolve<IUnitOfWork>();
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
+            if(!container.IsRegistered<IMapper>()){
+                container.RegisterType<IMapper, Mapper>();
+            }
         }
 
         #region Add
@@ -46,45 +37,45 @@ namespace CCTService
         {
             try
             {
-                db.CityRepository.Insert((City)city);
-                db.Save();
+                _unitOfWork.CityRepository.Insert(_mapper.Map<CityDto, City>(city));
+                _unitOfWork.Save();
             }
             catch(Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
      
-            return new ServiceRespone { ResponseCode = ResponeCode.Success, Value = city };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = city };
         }
 
         public ServiceRespone AddCountry(CountryDto country)
         {
             try
             {
-                db.CountryRepository.Insert((Country)country);
-                db.Save();
+                _unitOfWork.CountryRepository.Insert(_mapper.Map<CountryDto, Country>(country));
+                _unitOfWork.Save();
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
 
-            return new ServiceRespone { ResponseCode = ResponeCode.Success, Value = country };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = country };
         }
 
         public ServiceRespone AddTeam(TeamDto team)
         {
             try
             {
-                db.TeamRepository.Insert((Team)team);
-                db.Save();
+                _unitOfWork.TeamRepository.Insert(_mapper.Map<TeamDto, Team>(team));
+                _unitOfWork.Save();
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
 
-            return new ServiceRespone { ResponseCode = ResponeCode.Success, Value = team };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = team };
         }
 
         #endregion
@@ -98,12 +89,12 @@ namespace CCTService
                 return new ServiceRespone
                 {
                     ResponseCode = ResponeCode.Success,
-                    Value = db.CountryRepository.Get().Select(i => (CountryDto)i).ToList()
+                    Value = _mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(_unitOfWork.CountryRepository.Get())
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -114,12 +105,12 @@ namespace CCTService
                 return new ServiceRespone
                 {
                     ResponseCode = ResponeCode.Success,
-                    Value = db.TeamRepository.Get().Select(i => (TeamDto)i).ToList()
+                    Value = _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDto>>(_unitOfWork.TeamRepository.Get())
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -129,12 +120,12 @@ namespace CCTService
             {
                 return new ServiceRespone {
                     ResponseCode = ResponeCode.Success,
-                    Value = db.CityRepository.Get().Select(i => (CityDto)i).ToList()
+                    Value = _mapper.Map<IEnumerable<City>, IEnumerable<CityDto>>(_unitOfWork.CityRepository.Get())
                 };
             }
             catch(Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -146,15 +137,16 @@ namespace CCTService
         {
             try
             {
+                var city = _mapper.Map<City, CityDto>(_unitOfWork.CityRepository.GetByID(id));
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
-                    Value = (CityDto)db.CityRepository.GetByID(id)
+                    ResponseCode = city == null ? ResponeCode.NotFound : ResponeCode.Success,
+                    Value = city
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -162,15 +154,17 @@ namespace CCTService
         {
             try
             {
+                var country = _mapper.Map<Country, CountryDto>(_unitOfWork.CountryRepository.GetByID(id));
+
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
-                    Value = (CountryDto)db.CountryRepository.GetByID(id)
+                    ResponseCode = country == null ? ResponeCode.NotFound : ResponeCode.Success,
+                    Value = country
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -178,15 +172,16 @@ namespace CCTService
         {
             try
             {
+                var team = _mapper.Map<Team, TeamDto>(_unitOfWork.TeamRepository.GetByID(id));
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
-                    Value = (TeamDto)db.TeamRepository.GetByID(id)
+                    ResponseCode = team == null ? ResponeCode.NotFound : ResponeCode.Success,
+                    Value = team
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -198,18 +193,18 @@ namespace CCTService
         {
             try
             {
-                db.CityRepository.Delete(id);
-                db.Save();
+                _unitOfWork.CityRepository.Delete(id);
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordDeleted,
                     Value = null
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -217,18 +212,18 @@ namespace CCTService
         {
             try
             {
-                db.CountryRepository.Delete(id);
-                db.Save();
+                _unitOfWork.CountryRepository.Delete(id);
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordDeleted,
                     Value = null
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -236,18 +231,18 @@ namespace CCTService
         {
             try
             {
-                db.TeamRepository.Delete(id);
-                db.Save();
+                _unitOfWork.TeamRepository.Delete(id);
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordDeleted,
                     Value = null
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -259,18 +254,18 @@ namespace CCTService
         {
             try
             {
-                db.CityRepository.Update((City)city);
-                db.Save();
+                _unitOfWork.CityRepository.Update(_mapper.Map<CityDto, City>(city));
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordUpdated,
                     Value = city
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -278,18 +273,18 @@ namespace CCTService
         {
             try
             {
-                db.CountryRepository.Update((Country)country);
-                db.Save();
+                _unitOfWork.CountryRepository.Update(_mapper.Map<CountryDto, Country>(country));
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordUpdated,
                     Value = country
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 
@@ -297,18 +292,18 @@ namespace CCTService
         {
             try
             {
-                db.TeamRepository.Update((Team)team);
-                db.Save();
+                _unitOfWork.TeamRepository.Update(_mapper.Map<TeamDto, Team>(team));
+                _unitOfWork.Save();
 
                 return new ServiceRespone
                 {
-                    ResponseCode = ResponeCode.Success,
+                    ResponseCode = ResponeCode.DbRecordUpdated,
                     Value = team
                 };
             }
             catch (Exception ex)
             {
-                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = ex.Message };
+                return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
         }
 

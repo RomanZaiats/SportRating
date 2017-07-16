@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ServicesHelper
 {
-    public enum ResponeCode { Success, NotFound, BadRequest, DbError }
+    public enum ResponeCode { Success, NotFound, BadRequest, DbError, DbRecordCreated, DbRecordUpdated, DbRecordDeleted }
 
     public class ServiceRespone
     {
         public ResponeCode ResponseCode { get; set; }
 
         public object Value { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
