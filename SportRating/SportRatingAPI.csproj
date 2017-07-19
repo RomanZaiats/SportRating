@@ -305,6 +305,10 @@
       <Project>{C80F7B24-467C-408E-A8A8-B24D079EB464}</Project>
       <Name>DTOs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{835D710B-9997-43C1-838B-2A27C888B9EC}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServicesHelper\ServicesHelper.csproj">
       <Project>{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}</Project>
       <Name>ServicesHelper</Name>

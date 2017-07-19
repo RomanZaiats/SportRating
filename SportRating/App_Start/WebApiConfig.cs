@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CCTService;
+using Intefaces.Services;
 using Microsoft.Practices.Unity;
 using ServicesHelper;
 using SportRating.Resolver;

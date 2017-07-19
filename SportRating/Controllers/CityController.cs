@@ -4,6 +4,7 @@ using DAL;
 using DB.Entities;
 using DTOs.Api;
 using DTOs.CCTService;
+using Intefaces.Services;
 using SportRating.Models;
 using SportRating.Models.City;
 using SportRating.Utils;

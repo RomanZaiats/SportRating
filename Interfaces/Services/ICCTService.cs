@@ -1,12 +1,7 @@
 ﻿using DTOs.CCTService;
 using ServicesHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CCTService
+namespace Intefaces.Services
 {
     public interface ICCTService
     {

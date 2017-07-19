@@ -1,5 +1,6 @@
 ﻿using DB;
 using DB.Entities;
+using Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +13,25 @@ namespace DAL
     {
         private SportRatingContext context = new SportRatingContext();
 
-        private GenericRepository<City> _cityRepository;
-        private GenericRepository<Country> _countryRepository;
-        private GenericRepository<Match> _matchRepository;
-        private GenericRepository<Rating> _ratingRepository;
-        private GenericRepository<RatingList> _ratingListRepository;
-        private GenericRepository<Stage> _stageRepository;
-        private GenericRepository<Team> _teamRepository;
-        private GenericRepository<Tournament> _tournamentRepository;
-        private GenericRepository<Tour> _tourRepository;
+        private IGenericRepository<City> _cityRepository;
+        private IGenericRepository<Country> _countryRepository;
+        private IGenericRepository<Match> _matchRepository;
+        private IGenericRepository<Rating> _ratingRepository;
+        private IGenericRepository<RatingList> _ratingListRepository;
+        private IGenericRepository<Stage> _stageRepository;
+        private IGenericRepository<Team> _teamRepository;
+        private IGenericRepository<Tournament> _tournamentRepository;
+        private IGenericRepository<Tour> _tourRepository;
 
-        public GenericRepository<City> CityRepository { get => _cityRepository ?? (_cityRepository = new GenericRepository<City>(context)); }
-        public GenericRepository<Country> CountryRepository { get => _countryRepository ?? (_countryRepository = new GenericRepository<Country>(context)); }
-        public GenericRepository<Match> MatchRepository { get => _matchRepository ?? (_matchRepository = new GenericRepository<Match>(context)); }
-        public GenericRepository<Rating> RatingRepository { get => _ratingRepository ?? (_ratingRepository = new GenericRepository<Rating>(context)); }
-        public GenericRepository<RatingList> RatingListRepository { get => _ratingListRepository ?? (_ratingListRepository = new GenericRepository<RatingList>(context)); }
-        public GenericRepository<Stage> StageRepository { get => _stageRepository ?? (_stageRepository = new GenericRepository<Stage>(context)); }
-        public GenericRepository<Team> TeamRepository { get => _teamRepository ?? (_teamRepository = new GenericRepository<Team>(context)); }
-        public GenericRepository<Tournament> TournamentRepository { get => _tournamentRepository ?? (_tournamentRepository = new GenericRepository<Tournament>(context)); }
-        public GenericRepository<Tour> TourRepository { get => _tourRepository ?? (_tourRepository = new GenericRepository<Tour>(context)); }
+        public IGenericRepository<City> CityRepository { get => _cityRepository ?? (_cityRepository = new GenericRepository<City>(context)); }
+        public IGenericRepository<Country> CountryRepository { get => _countryRepository ?? (_countryRepository = new GenericRepository<Country>(context)); }
+        public IGenericRepository<Match> MatchRepository { get => _matchRepository ?? (_matchRepository = new GenericRepository<Match>(context)); }
+        public IGenericRepository<Rating> RatingRepository { get => _ratingRepository ?? (_ratingRepository = new GenericRepository<Rating>(context)); }
+        public IGenericRepository<RatingList> RatingListRepository { get => _ratingListRepository ?? (_ratingListRepository = new GenericRepository<RatingList>(context)); }
+        public IGenericRepository<Stage> StageRepository { get => _stageRepository ?? (_stageRepository = new GenericRepository<Stage>(context)); }
+        public IGenericRepository<Team> TeamRepository { get => _teamRepository ?? (_teamRepository = new GenericRepository<Team>(context)); }
+        public IGenericRepository<Tournament> TournamentRepository { get => _tournamentRepository ?? (_tournamentRepository = new GenericRepository<Tournament>(context)); }
+        public IGenericRepository<Tour> TourRepository { get => _tourRepository ?? (_tourRepository = new GenericRepository<Tour>(context)); }
 
 
         public void Save()

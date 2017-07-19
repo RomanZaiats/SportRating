@@ -9,6 +9,8 @@ using ServicesHelper;
 using Microsoft.Practices.Unity;
 using DB.Entities;
 using AutoMapper;
+using Intefaces.Services;
+using Interfaces.DAL;
 
 namespace CCTService
 {

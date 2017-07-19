@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCTService", "CCTService\CC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesHelper", "ServicesHelper\ServicesHelper.csproj", "{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{835D710B-9997-43C1-838B-2A27C888B9EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Test", "Api.Test\Api.Test.csproj", "{247A30C8-BAFF-463D-B70C-D7EEC017B3BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{835D710B-9997-43C1-838B-2A27C888B9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{835D710B-9997-43C1-838B-2A27C888B9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{835D710B-9997-43C1-838B-2A27C888B9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{835D710B-9997-43C1-838B-2A27C888B9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247A30C8-BAFF-463D-B70C-D7EEC017B3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247A30C8-BAFF-463D-B70C-D7EEC017B3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247A30C8-BAFF-463D-B70C-D7EEC017B3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247A30C8-BAFF-463D-B70C-D7EEC017B3BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

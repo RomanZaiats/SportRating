@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCTService.cs" />
-    <Compile Include="ICCTService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +74,10 @@
     <ProjectReference Include="..\DTOs\DTOs.csproj">
       <Project>{c80f7b24-467c-408e-a8a8-b24d079eb464}</Project>
       <Name>DTOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{835d710b-9997-43c1-838b-2a27c888b9ec}</Project>
+      <Name>Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServicesHelper\ServicesHelper.csproj">
       <Project>{DD5E0159-C7F9-42A5-84DE-19DA556D6F1B}</Project>
