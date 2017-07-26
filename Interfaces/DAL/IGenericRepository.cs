@@ -14,7 +14,7 @@ namespace Interfaces.DAL
 
         TEntity GetByID(object id);
 
-        void Insert(TEntity entity);
+        TEntity Insert(TEntity entity);
 
         void Delete(object id);
 

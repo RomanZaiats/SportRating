@@ -48,8 +48,9 @@ namespace SportRating.Controllers
             return MapServiceToHttpResponse(_cctService.AddCity(_mapper.Map<CityApiDto, CityDto>(city)));
         }
 
+        [Route("api/City")]
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody]CityApiDto city)
+        public IHttpActionResult Put([FromBody]CityApiDto city)
         {
             return MapServiceToHttpResponse(_cctService.UpdateCity(_mapper.Map<CityApiDto, CityDto>(city)));
         }

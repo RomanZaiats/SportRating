@@ -37,9 +37,10 @@ namespace CCTService
 
         public ServiceRespone AddCity(CityDto city)
         {
+            City inserted;
             try
             {
-                _unitOfWork.CityRepository.Insert(_mapper.Map<CityDto, City>(city));
+                inserted =_unitOfWork.CityRepository.Insert(_mapper.Map<CityDto, City>(city));
                 _unitOfWork.Save();
             }
             catch(Exception ex)
@@ -47,7 +48,7 @@ namespace CCTService
                 return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
      
-            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = city };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = inserted };
         }
 
         public ServiceRespone AddCountry(CountryDto country)
