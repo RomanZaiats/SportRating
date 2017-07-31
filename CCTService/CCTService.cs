@@ -29,6 +29,7 @@ namespace CCTService
         {
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             if(!container.IsRegistered<IMapper>()){
+                MapperConfig.RegisterMapping();
                 container.RegisterType<IMapper, Mapper>();
             }
         }
@@ -40,7 +41,7 @@ namespace CCTService
             City inserted;
             try
             {
-                inserted =_unitOfWork.CityRepository.Insert(_mapper.Map<CityDto, City>(city));
+                inserted = _unitOfWork.CityRepository.Insert(_mapper.Map<CityDto, City>(city));
                 _unitOfWork.Save();
             }
             catch(Exception ex)
@@ -48,14 +49,15 @@ namespace CCTService
                 return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
      
-            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = inserted };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = _mapper.Map<City, CityDto>(inserted) };
         }
 
         public ServiceRespone AddCountry(CountryDto country)
         {
+            Country inserted;
             try
             {
-                _unitOfWork.CountryRepository.Insert(_mapper.Map<CountryDto, Country>(country));
+                inserted = _unitOfWork.CountryRepository.Insert(_mapper.Map<CountryDto, Country>(country));
                 _unitOfWork.Save();
             }
             catch (Exception ex)
@@ -63,14 +65,15 @@ namespace CCTService
                 return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
 
-            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = country };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = _mapper.Map<Country, CountryDto>(inserted) };
         }
 
         public ServiceRespone AddTeam(TeamDto team)
         {
+            Team inserted;
             try
             {
-                _unitOfWork.TeamRepository.Insert(_mapper.Map<TeamDto, Team>(team));
+                inserted = _unitOfWork.TeamRepository.Insert(_mapper.Map<TeamDto, Team>(team));
                 _unitOfWork.Save();
             }
             catch (Exception ex)
@@ -78,7 +81,7 @@ namespace CCTService
                 return new ServiceRespone { ResponseCode = ResponeCode.DbError, Value = null, ErrorMessage = ex.Message };
             }
 
-            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = team };
+            return new ServiceRespone { ResponseCode = ResponeCode.DbRecordCreated, Value = _mapper.Map<Team, TeamDto>(inserted) };
         }
 
         #endregion
@@ -257,7 +260,10 @@ namespace CCTService
         {
             try
             {
-                _unitOfWork.CityRepository.Update(_mapper.Map<CityDto, City>(city));
+                var cityToUpdate = _unitOfWork.CityRepository.GetByID(city.Id);
+                cityToUpdate.Name = city.Name;
+                cityToUpdate.CountryId = city.CountryId;
+                _unitOfWork.CityRepository.Update(cityToUpdate);
                 _unitOfWork.Save();
 
                 return new ServiceRespone

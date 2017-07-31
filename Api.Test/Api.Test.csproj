@@ -77,16 +77,22 @@
   <ItemGroup>
     <Compile Include="Integration\CityController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\CCTService\Fixtures\FakeCityRepository.cs" />
+    <Compile Include="Unit\CCTService\Fixtures\FakeCountryRepository.cs" />
+    <Compile Include="Unit\CCTService\Fixtures\FakeTeamRepository.cs" />
+    <Compile Include="Unit\CCTService\Fixtures\FakeUnitOfWork.cs" />
+    <Compile Include="Unit\CCTService\CCTServiceTest.cs" />
     <Compile Include="Unit\CityController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Integration\OrderedTest1.orderedtest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CCTService\CCTService.csproj">
+      <Project>{da8cccb6-8740-4947-9038-96d37e23a1b2}</Project>
+      <Name>CCTService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DB\DB.csproj">
       <Project>{AA2929FC-C7DF-42D4-97B8-82AA168A628C}</Project>
       <Name>DB</Name>
