@@ -282,7 +282,9 @@ namespace CCTService
         {
             try
             {
-                _unitOfWork.CountryRepository.Update(_mapper.Map<CountryDto, Country>(country));
+                var countryToUpdate = _unitOfWork.CountryRepository.GetByID(country.Id);
+                countryToUpdate.Name = country.Name;
+                _unitOfWork.CountryRepository.Update(countryToUpdate);
                 _unitOfWork.Save();
 
                 return new ServiceRespone
@@ -301,7 +303,10 @@ namespace CCTService
         {
             try
             {
-                _unitOfWork.TeamRepository.Update(_mapper.Map<TeamDto, Team>(team));
+                var teamToUpdate = _unitOfWork.TeamRepository.GetByID(team.Id);
+                teamToUpdate.Name = team.Name;
+                teamToUpdate.CityId = team.CityId;
+                _unitOfWork.TeamRepository.Update(teamToUpdate);
                 _unitOfWork.Save();
 
                 return new ServiceRespone

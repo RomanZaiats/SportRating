@@ -1,39 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using AutoMapper;
+using DTOs.Api;
+using DTOs.CCTService;
+using Intefaces.Services;
+using SportRating.Utils;
 using System.Web.Http;
 
 namespace SportRating.Controllers
 {
-    public class CountryController : ApiController
+    public class CountryController : ServiceApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        private ICCTService _cctService;
+        private IMapper _mapper;
+
+        public CountryController()
         {
-            return new string[] { "value1", "value2" };
+            _cctService = (ICCTService)WebApiConfig.DependencyResolver.GetService(typeof(ICCTService));
+            _mapper = (IMapper)WebApiConfig.DependencyResolver.GetService(typeof(IMapper));
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        [Route("api/Country")]
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            return "value";
+            return MapServiceToHttpResponse(_cctService.GetAllCountries());
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
+        public IHttpActionResult Get(int id)
         {
+            return MapServiceToHttpResponse(_cctService.GetCountry(id));
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        [Route("api/Country")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody]CountryApiDto country)
         {
+            return MapServiceToHttpResponse(_cctService.AddCountry(_mapper.Map<CountryApiDto, CountryDto>(country)));
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            return MapServiceToHttpResponse(_cctService.RemoveCountry(id));
         }
     }
 }

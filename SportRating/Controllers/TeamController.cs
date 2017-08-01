@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AutoMapper;
+using DTOs.Api;
+using DTOs.CCTService;
+using Intefaces.Services;
+using SportRating.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,33 +12,46 @@ using System.Web.Http;
 
 namespace SportRating.Controllers
 {
-    public class TeamController : ApiController
+    public class TeamController : ServiceApiController
     {
-        // GET: api/Team
-        public IEnumerable<string> Get()
+        private ICCTService _cctService;
+        private IMapper _mapper;
+
+        public TeamController()
         {
-            return new string[] { "value1", "value2" };
+            _cctService = (ICCTService)WebApiConfig.DependencyResolver.GetService(typeof(ICCTService));
+            _mapper = (IMapper)WebApiConfig.DependencyResolver.GetService(typeof(IMapper));
         }
 
-        // GET: api/Team/5
-        public string Get(int id)
+        [Route("api/Team")]
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            return "value";
+            return MapServiceToHttpResponse(_cctService.GetAllTeams());
         }
 
-        // POST: api/Team
-        public void Post([FromBody]string value)
+        public IHttpActionResult Get(int id)
         {
+            return MapServiceToHttpResponse(_cctService.GetTeam(id));
         }
 
-        // PUT: api/Team/5
-        public void Put(int id, [FromBody]string value)
+        [Route("api/Team")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody]TeamApiDto team)
         {
+            return MapServiceToHttpResponse(_cctService.AddTeam(_mapper.Map<TeamApiDto, TeamDto>(team)));
         }
 
-        // DELETE: api/Team/5
-        public void Delete(int id)
+        [Route("api/Team")]
+        [HttpPut]
+        public IHttpActionResult Put([FromBody]TeamApiDto team)
         {
+            return MapServiceToHttpResponse(_cctService.UpdateTeam(_mapper.Map<TeamApiDto, TeamDto>(team)));
+        }
+
+        public IHttpActionResult Delete(int id)
+        {
+            return MapServiceToHttpResponse(_cctService.RemoveTeam(id));
         }
     }
 }

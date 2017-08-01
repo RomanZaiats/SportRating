@@ -11,7 +11,7 @@ public partial class CityControllerTest
         private RestClient _client = new RestClient("http://localhost:42877/");
 
         [TestMethod]
-        public void PostGetPutDeleteFlow()
+        public void CityPostGetPutDeleteFlow()
         {
             var postCity = new RestRequest("api/City/", Method.POST)
             {
